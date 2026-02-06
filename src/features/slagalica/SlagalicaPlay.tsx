@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { SlagalicaGameState } from './types'
 import './SlagalicaPlay.css'
 
@@ -21,9 +21,45 @@ export function SlagalicaPlay({ gameConfig, onBack }: SlagalicaPlayProps) {
   const [roundComplete, setRoundComplete] = useState(false)
   const [player1Score, setPlayer1Score] = useState(0)
   const [player2Score, setPlayer2Score] = useState(0)
+  const [player1RoundPoints, setPlayer1RoundPoints] = useState(0)
+  const [player2RoundPoints, setPlayer2RoundPoints] = useState(0)
+
+  // Generate random alphanumeric character
+  const getRandomChar = () => {
+    const chars = 'ABCDEFGHIJKLMNOPRSTUVZ'
+    return chars[Math.floor(Math.random() * chars.length)]
+  }
+
+  // Shuffle array using Fisher-Yates algorithm
+  const shuffleArray = <T,>(array: T[]): T[] => {
+    const shuffled = [...array]
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+    }
+    return shuffled
+  }
+
+  // Pad word with random characters and scramble
+  const padAndScrambleWord = (word: string): string[] => {
+    const wordChars = word.split('')
+    let allChars = wordChars
+    if (wordChars.length < 13) {
+      const padding = Array.from(
+        { length: 13 - wordChars.length },
+        () => getRandomChar()
+      )
+      allChars = [...wordChars, ...padding]
+    }
+    return shuffleArray(allChars)
+  }
+
+  // Pad word with random characters if needed, then scramble (memoized per word)
+  const paddedWord1 = useMemo(() => padAndScrambleWord(gameConfig.word1), [gameConfig.word1])
+  const paddedWord2 = useMemo(() => padAndScrambleWord(gameConfig.word2), [gameConfig.word2])
 
   const currentWord = currentRound === 1 ? gameConfig.word1 : gameConfig.word2
-  const characters = currentWord.split('')
+  const characters = currentRound === 1 ? paddedWord1 : paddedWord2
 
   // Timer effect
   useEffect(() => {
@@ -80,9 +116,44 @@ export function SlagalicaPlay({ gameConfig, onBack }: SlagalicaPlayProps) {
       const p2Length = player2Word.length
 
       if (p1Length > p2Length) {
-        setPlayer1Score(prev => prev + 10)
+        // Player 1 has longer word - award 10 points
+        let points = 10
+        // Award additional 5 points if word matches game master's word
+        if (player1Word === currentWord) {
+          points += 5
+        }
+        setPlayer1Score(prev => prev + points)
+        setPlayer1RoundPoints(points)
+        setPlayer2RoundPoints(0)
       } else if (p2Length > p1Length) {
-        setPlayer2Score(prev => prev + 10)
+        // Player 2 has longer word - award 10 points
+        let points = 10
+        // Award additional 5 points if word matches game master's word
+        if (player2Word === currentWord) {
+          points += 5
+        }
+        setPlayer2Score(prev => prev + points)
+        setPlayer1RoundPoints(0)
+        setPlayer2RoundPoints(points)
+      } else {
+        // Same length - award points to player 1 in round 1, player 2 in round 2
+        if (currentRound === 1) {
+          let points = 10
+          if (player1Word === currentWord) {
+            points += 5
+          }
+          setPlayer1Score(prev => prev + points)
+          setPlayer1RoundPoints(points)
+          setPlayer2RoundPoints(0)
+        } else {
+          let points = 10
+          if (player2Word === currentWord) {
+            points += 5
+          }
+          setPlayer2Score(prev => prev + points)
+          setPlayer1RoundPoints(0)
+          setPlayer2RoundPoints(points)
+        }
       }
     }
   }
@@ -91,7 +162,7 @@ export function SlagalicaPlay({ gameConfig, onBack }: SlagalicaPlayProps) {
     if (currentRound === 1) {
       // Start round 2
       setCurrentRound(2)
-      setTimeElapsed(0)
+      setTimeElapsed(10)
       setShowPlayerInputs(false)
       setCurrentPlayer(1)
       setSelectedIndices([])
@@ -100,6 +171,8 @@ export function SlagalicaPlay({ gameConfig, onBack }: SlagalicaPlayProps) {
       setPlayer1Saved(false)
       setPlayer2Saved(false)
       setRoundComplete(false)
+      setPlayer1RoundPoints(0)
+      setPlayer2RoundPoints(0)
     } else {
       // Game complete
       onBack()
@@ -117,7 +190,7 @@ export function SlagalicaPlay({ gameConfig, onBack }: SlagalicaPlayProps) {
             key={index}
             className={`character-box ${selectedIndices.includes(index) ? 'selected' : ''}`}
             onClick={() => handleCharacterClick(index)}
-            disabled={selectedIndices.includes(index)}
+            disabled={!showPlayerInputs || selectedIndices.includes(index)}
           >
             {char}
           </button>
@@ -134,8 +207,8 @@ export function SlagalicaPlay({ gameConfig, onBack }: SlagalicaPlayProps) {
               readOnly
               className={player1Saved ? 'saved' : ''}
             />
-            {player1Saved && roundComplete && player1Word.length > player2Word.length && (
-              <span className="points">+10</span>
+            {player1Saved && roundComplete && player1RoundPoints > 0 && (
+              <span className="points">+{player1RoundPoints}</span>
             )}
           </div>
 
@@ -147,8 +220,8 @@ export function SlagalicaPlay({ gameConfig, onBack }: SlagalicaPlayProps) {
               readOnly
               className={player2Saved ? 'saved' : ''}
             />
-            {player2Saved && roundComplete && player2Word.length > player1Word.length && (
-              <span className="points">+10</span>
+            {player2Saved && roundComplete && player2RoundPoints > 0 && (
+              <span className="points">+{player2RoundPoints}</span>
             )}
           </div>
 

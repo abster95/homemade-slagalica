@@ -32,6 +32,9 @@
   color: #000000;
   cursor: pointer;
   transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .character-box:hover:not(:disabled) {
