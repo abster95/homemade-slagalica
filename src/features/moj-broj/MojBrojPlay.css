@@ -1,0 +1,221 @@
+.moj-broj-play {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.timer {
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 1rem;
+  background-color: rgba(100, 108, 255, 0.1);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.current-player-indicator {
+  text-align: center;
+  padding: 0.75rem;
+  background-color: rgba(33, 150, 243, 0.15);
+  border-radius: 8px;
+  border: 2px solid #2196f3;
+}
+
+.current-player-indicator strong {
+  color: #1976d2;
+  font-size: 1.1rem;
+}
+
+.target-number {
+  text-align: center;
+  padding: 1rem;
+  background-color: rgba(255, 152, 0, 0.1);
+  border-radius: 8px;
+}
+
+.target-number h2 {
+  margin: 0;
+  color: #ff9800;
+  font-size: 2rem;
+}
+
+.number-boxes {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.number-box {
+  width: 60px;
+  height: 60px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border: 2px solid #646cff;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #000000;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.number-box:hover:not(:disabled) {
+  background-color: #646cff;
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+.number-box:disabled,
+.number-box.used {
+  background-color: #f5f5f5;
+  color: #999999;
+  cursor: not-allowed;
+  border-color: #cccccc;
+  opacity: 0.5;
+}
+
+.operation-boxes {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.operation-box {
+  width: 50px;
+  height: 50px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border: 2px solid #4caf50;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #000000;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.operation-box:hover {
+  background-color: #4caf50;
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+.player-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.player-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 0.75rem;
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+
+.player-section.active {
+  background-color: rgba(33, 150, 243, 0.1);
+  border: 2px solid #2196f3;
+  box-shadow: 0 2px 8px rgba(33, 150, 243, 0.2);
+}
+
+.player-section label {
+  font-weight: 600;
+  min-width: 90px;
+  text-align: left;
+}
+
+.player-section.active label {
+  color: #1976d2;
+}
+
+.player-section input {
+  flex: 1;
+  min-width: 200px;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #f5f5f5;
+  color: #000000;
+  font-family: monospace;
+}
+
+.player-section input.locked {
+  background-color: #e8f5e9;
+  border-color: #4caf50;
+}
+
+.player-section .result {
+  color: #2196f3;
+  font-weight: bold;
+  font-size: 1.25rem;
+  font-family: monospace;
+}
+
+.player-section .error-result {
+  color: #f44336;
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+.player-section .points {
+  color: #4caf50;
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.action-buttons button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.action-buttons button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.round-complete {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem;
+  background-color: rgba(76, 175, 80, 0.1);
+  border-radius: 8px;
+}
+
+.scores {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.scores p {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin: 0;
+}

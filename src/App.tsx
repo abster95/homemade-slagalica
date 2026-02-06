@@ -6,14 +6,18 @@ import { SlagalicaGameState } from './features/slagalica/types'
 import { AsocijacijeGameMaster } from './features/asocijacije/AsocijacijeGameMaster'
 import { AsocijacijePlay } from './features/asocijacije/AsocijacijePlay'
 import { AsocijacijeGameState } from './features/asocijacije/types'
+import { MojBrojGameMaster } from './features/moj-broj/MojBrojGameMaster'
+import { MojBrojPlay } from './features/moj-broj/MojBrojPlay'
+import { MojBrojGameState } from './features/moj-broj/types'
 
-type GameType = 'slagalica' | 'asocijacije' | null
+type GameType = 'slagalica' | 'asocijacije' | 'moj-broj' | null
 
 function App() {
   const [mode, setMode] = useState<'menu' | 'game-master' | 'play'>('menu')
   const [selectedGame, setSelectedGame] = useState<GameType>(null)
   const [slagalicaConfig, setSlagalicaConfig] = useState<SlagalicaGameState | null>(null)
   const [asocijacijeConfig, setAsocijacijeConfig] = useState<AsocijacijeGameState | null>(null)
+  const [mojBrojConfig, setMojBrojConfig] = useState<MojBrojGameState | null>(null)
 
   return (
     <div className="app">
@@ -48,6 +52,9 @@ function App() {
               <button onClick={() => setSelectedGame('asocijacije')}>
                 Asocijacije (Associations)
               </button>
+              <button onClick={() => setSelectedGame('moj-broj')}>
+                Moj Broj (My Number)
+              </button>
             </div>
             <button onClick={() => setMode('menu')}>Back to Menu</button>
           </div>
@@ -75,11 +82,22 @@ function App() {
           />
         )}
 
+        {mode === 'game-master' && selectedGame === 'moj-broj' && (
+          <MojBrojGameMaster
+            onSave={(config) => {
+              setMojBrojConfig(config)
+              setSelectedGame(null)
+              setMode('menu')
+            }}
+            onBack={() => setSelectedGame(null)}
+          />
+        )}
+
         {mode === 'play' && !selectedGame && (
           <div className="play-mode">
             <h2>Play Mode</h2>
             <p>Select a game to play</p>
-            {!slagalicaConfig && !asocijacijeConfig && (
+            {!slagalicaConfig && !asocijacijeConfig && !mojBrojConfig && (
               <p className="warning">⚠️ No games configured yet. Use Game Master Mode first.</p>
             )}
             <div className="menu-buttons">
@@ -96,6 +114,13 @@ function App() {
               >
                 Asocijacije (Associations)
                 {asocijacijeConfig && ' ✓'}
+              </button>
+              <button
+                onClick={() => setSelectedGame('moj-broj')}
+                disabled={!mojBrojConfig}
+              >
+                Moj Broj (My Number)
+                {mojBrojConfig && ' ✓'}
               </button>
             </div>
             <button onClick={() => setMode('menu')}>Back to Menu</button>
@@ -115,6 +140,16 @@ function App() {
         {mode === 'play' && selectedGame === 'asocijacije' && asocijacijeConfig && (
           <AsocijacijePlay
             gameConfig={asocijacijeConfig}
+            onBack={() => {
+              setSelectedGame(null)
+              setMode('menu')
+            }}
+          />
+        )}
+
+        {mode === 'play' && selectedGame === 'moj-broj' && mojBrojConfig && (
+          <MojBrojPlay
+            gameConfig={mojBrojConfig}
             onBack={() => {
               setSelectedGame(null)
               setMode('menu')
