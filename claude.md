@@ -111,6 +111,10 @@ slagalica/
 - Spojnice (Connections)
 - Ko zna zna (General knowledge)
 
+# Game modes
+- Game master (sets the values for the games to be played i.e. the number to guess in moj broj or the word to guess in slagalica)
+- Playing mode (two players alternate between answering the questions)
+
 ## Development Commands
 - `yarn install` - Install dependencies
 - `yarn start` - Start development server
