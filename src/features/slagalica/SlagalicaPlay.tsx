@@ -9,7 +9,7 @@ interface SlagalicaPlayProps {
 
 export function SlagalicaPlay({ gameConfig, onBack }: SlagalicaPlayProps) {
   const [currentRound, setCurrentRound] = useState<1 | 2>(1)
-  const [timeElapsed, setTimeElapsed] = useState(0)
+  const [timeElapsed, setTimeElapsed] = useState(10)
   const [showPlayerInputs, setShowPlayerInputs] = useState(false)
   const [currentPlayer, setCurrentPlayer] = useState<1 | 2>(1)
 
@@ -31,8 +31,8 @@ export function SlagalicaPlay({ gameConfig, onBack }: SlagalicaPlayProps) {
 
     const interval = setInterval(() => {
       setTimeElapsed((prev) => {
-        const next = prev + 1
-        if (next === 10 && !showPlayerInputs) {
+        const next = prev - 1 < 0 ? 0 : prev - 1
+        if (next === 0 && !showPlayerInputs) {
           setShowPlayerInputs(true)
         }
         return next
