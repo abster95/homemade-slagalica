@@ -19,6 +19,9 @@ export function SlagalicaGameMaster({ onSave, onBack }: SlagalicaGameMasterProps
     if (word.includes(' ')) {
       return 'Word cannot contain whitespace'
     }
+    if (!/^[a-zA-Z]+$/.test(word)) {
+      return 'Word must contain only letters'
+    }
     if (word.length > 13) {
       return 'Word must be at most 13 letters long'
     }
