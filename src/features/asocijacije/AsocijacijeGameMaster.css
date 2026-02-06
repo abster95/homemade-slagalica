@@ -1,0 +1,103 @@
+.asocijacije-game-master {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.asocijacije-game-master h3 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.asocijacije-game-master p {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #666;
+}
+
+.errors {
+  background-color: #fee;
+  border: 1px solid #fcc;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+}
+
+.error {
+  color: #c00;
+  margin: 5px 0;
+}
+
+.columns-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.column-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.column-section h4 {
+  text-align: center;
+  margin: 0 0 10px 0;
+  color: #333;
+}
+
+.column-section input {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.column-section input.solution-input {
+  background-color: #f0f8ff;
+  font-weight: bold;
+  border-color: #4a90e2;
+}
+
+.final-solution-section {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.final-solution-section h4 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.final-solution-input {
+  padding: 15px;
+  font-size: 16px;
+  font-weight: bold;
+  border: 2px solid #4a90e2;
+  border-radius: 4px;
+  width: 300px;
+  text-align: center;
+  background-color: #fff3cd;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.button-group button {
+  padding: 12px 30px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  background-color: #4a90e2;
+  color: white;
+  transition: background-color 0.2s;
+}
+
+.button-group button:hover {
+  background-color: #357abd;
+}
