@@ -39,3 +39,17 @@ main {
   padding: 1rem;
   font-size: 1.1em;
 }
+
+.menu-buttons button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.warning {
+  color: #ff9800;
+  font-weight: 600;
+  padding: 1rem;
+  background-color: rgba(255, 152, 0, 0.1);
+  border-radius: 8px;
+  border: 1px solid #ff9800;
+}
