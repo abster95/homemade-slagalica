@@ -12,8 +12,11 @@ import { MojBrojGameState } from './features/moj-broj/types'
 import { SkockoGameMaster } from './features/skocko/SkockoGameMaster'
 import { SkockoPlay } from './features/skocko/SkockoPlay'
 import { SkockoGameState } from './features/skocko/types'
+import { SpojniceGameMaster } from './features/spojnice/SpojniceGameMaster'
+import { SpojnicePlay } from './features/spojnice/SpojnicePlay'
+import { SpojniceGameState } from './features/spojnice/types'
 
-type GameType = 'slagalica' | 'asocijacije' | 'moj-broj' | 'skocko' | null
+type GameType = 'slagalica' | 'asocijacije' | 'moj-broj' | 'skocko' | 'spojnice' | null
 
 function App() {
   const [mode, setMode] = useState<'menu' | 'game-master' | 'play'>('menu')
@@ -22,6 +25,7 @@ function App() {
   const [asocijacijeConfig, setAsocijacijeConfig] = useState<AsocijacijeGameState | null>(null)
   const [mojBrojConfig, setMojBrojConfig] = useState<MojBrojGameState | null>(null)
   const [skockoConfig, setSkockoConfig] = useState<SkockoGameState | null>(null)
+  const [spojniceConfig, setSpojniceConfig] = useState<SpojniceGameState | null>(null)
 
   return (
     <div className="app">
@@ -61,6 +65,9 @@ function App() {
               </button>
               <button onClick={() => setSelectedGame('skocko')}>
                 Skočko (Mastermind)
+              </button>
+              <button onClick={() => setSelectedGame('spojnice')}>
+                Spojnice (Connections)
               </button>
             </div>
             <button onClick={() => setMode('menu')}>Back to Menu</button>
@@ -111,11 +118,22 @@ function App() {
           />
         )}
 
+        {mode === 'game-master' && selectedGame === 'spojnice' && (
+          <SpojniceGameMaster
+            onSave={(config) => {
+              setSpojniceConfig(config)
+              setSelectedGame(null)
+              setMode('menu')
+            }}
+            onBack={() => setSelectedGame(null)}
+          />
+        )}
+
         {mode === 'play' && !selectedGame && (
           <div className="play-mode">
             <h2>Play Mode</h2>
             <p>Select a game to play</p>
-            {!slagalicaConfig && !asocijacijeConfig && !mojBrojConfig && !skockoConfig && (
+            {!slagalicaConfig && !asocijacijeConfig && !mojBrojConfig && !skockoConfig && !spojniceConfig && (
               <p className="warning">⚠️ No games configured yet. Use Game Master Mode first.</p>
             )}
             <div className="menu-buttons">
@@ -146,6 +164,13 @@ function App() {
               >
                 Skočko (Mastermind)
                 {skockoConfig && ' ✓'}
+              </button>
+              <button
+                onClick={() => setSelectedGame('spojnice')}
+                disabled={!spojniceConfig}
+              >
+                Spojnice (Connections)
+                {spojniceConfig && ' ✓'}
               </button>
             </div>
             <button onClick={() => setMode('menu')}>Back to Menu</button>
@@ -185,6 +210,16 @@ function App() {
         {mode === 'play' && selectedGame === 'skocko' && skockoConfig && (
           <SkockoPlay
             gameConfig={skockoConfig}
+            onBack={() => {
+              setSelectedGame(null)
+              setMode('menu')
+            }}
+          />
+        )}
+
+        {mode === 'play' && selectedGame === 'spojnice' && spojniceConfig && (
+          <SpojnicePlay
+            gameConfig={spojniceConfig}
             onBack={() => {
               setSelectedGame(null)
               setMode('menu')
