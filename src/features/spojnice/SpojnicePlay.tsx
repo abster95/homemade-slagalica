@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { SpojniceGameState, RoundState, MatchState } from './types'
+import { SpojniceGameState, RoundState } from './types'
 import './SpojnicePlay.css'
 
 interface SpojnicePlayProps {
