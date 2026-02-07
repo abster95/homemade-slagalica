@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "homepage": "https://abster95.github.io/slagalica",
+  "homepage": "https://abster95.github.io/homemade-slagalica",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
