@@ -22,6 +22,11 @@ slagalica/
 │   ├── styles/          # Global styles
 │   ├── App.tsx          # Main app component
 │   └── main.tsx         # Entry point
+├── tests/               # Test files and fixtures
+│   ├── fixtures/        # Test data
+│   ├── unit/            # Unit tests
+│   ├── integration/     # Integration tests
+│   └── e2e/             # End-to-end tests
 ├── package.json
 ├── .gitignore
 └── claude.md           # Development guidelines

@@ -51,9 +51,12 @@ This is a Single Page Application (SPA) implementation of the popular Serbian qu
 - Optimize images and assets
 
 ### Testing
-- Write unit tests for utility functions
-- Write component tests for user interactions
+- Write unit tests for utility functions in `tests/unit/`
+- Write component tests for user interactions (can be co-located or in `tests/unit/`)
 - Use React Testing Library for component testing
+- Use Jest as the test runner
+- Use Playwright for end-to-end tests in `tests/e2e/`
+- Store test fixtures and mock data in `tests/fixtures/`
 - Aim for meaningful test coverage, not 100% coverage
 
 ### Git Workflow
@@ -98,6 +101,11 @@ slagalica/
 │   ├── styles/          # Global styles
 │   ├── App.tsx          # Main app component
 │   └── index.tsx        # Entry point
+├── tests/               # Test files and fixtures
+│   ├── fixtures/        # Test data and mock configurations
+│   ├── unit/            # Unit tests
+│   ├── integration/     # Integration tests
+│   └── e2e/             # End-to-end tests with Playwright
 ├── package.json
 ├── .gitignore
 └── claude.md
