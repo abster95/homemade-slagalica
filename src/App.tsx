@@ -15,6 +15,7 @@ import { SkockoGameState } from './features/skocko/types'
 import { SpojniceGameMaster } from './features/spojnice/SpojniceGameMaster'
 import { SpojnicePlay } from './features/spojnice/SpojnicePlay'
 import { SpojniceGameState } from './features/spojnice/types'
+import { saveConfigToFile, loadConfigFromFile, AllGamesConfig } from './utils/fileUtils'
 
 type GameType = 'slagalica' | 'asocijacije' | 'moj-broj' | 'skocko' | 'spojnice' | null
 
@@ -26,6 +27,35 @@ function App() {
   const [mojBrojConfig, setMojBrojConfig] = useState<MojBrojGameState | null>(null)
   const [skockoConfig, setSkockoConfig] = useState<SkockoGameState | null>(null)
   const [spojniceConfig, setSpojniceConfig] = useState<SpojniceGameState | null>(null)
+
+  const handleSaveConfig = () => {
+    const config: AllGamesConfig = {
+      version: '1.0.0',
+      slagalica: slagalicaConfig,
+      asocijacije: asocijacijeConfig,
+      mojBroj: mojBrojConfig,
+      skocko: skockoConfig,
+      spojnice: spojniceConfig,
+    }
+    saveConfigToFile(config)
+  }
+
+  const handleLoadConfig = async () => {
+    try {
+      const config = await loadConfigFromFile()
+
+      // Load each game configuration if it exists
+      if (config.slagalica) setSlagalicaConfig(config.slagalica)
+      if (config.asocijacije) setAsocijacijeConfig(config.asocijacije)
+      if (config.mojBroj) setMojBrojConfig(config.mojBroj)
+      if (config.skocko) setSkockoConfig(config.skocko)
+      if (config.spojnice) setSpojniceConfig(config.spojnice)
+
+      alert('Configuration loaded successfully!')
+    } catch (error) {
+      alert(`Failed to load configuration: ${error instanceof Error ? error.message : 'Unknown error'}`)
+    }
+  }
 
   return (
     <div className="app">
@@ -56,20 +86,38 @@ function App() {
             <div className="menu-buttons">
               <button onClick={() => setSelectedGame('slagalica')}>
                 Slagalica (Word Puzzle)
+                {slagalicaConfig && ' ✓'}
               </button>
               <button onClick={() => setSelectedGame('asocijacije')}>
                 Asocijacije (Associations)
+                {asocijacijeConfig && ' ✓'}
               </button>
               <button onClick={() => setSelectedGame('moj-broj')}>
                 Moj Broj (My Number)
+                {mojBrojConfig && ' ✓'}
               </button>
               <button onClick={() => setSelectedGame('skocko')}>
                 Skočko (Mastermind)
+                {skockoConfig && ' ✓'}
               </button>
               <button onClick={() => setSelectedGame('spojnice')}>
                 Spojnice (Connections)
+                {spojniceConfig && ' ✓'}
               </button>
             </div>
+
+            <div className="config-management">
+              <h3>Configuration Management</h3>
+              <div className="menu-buttons">
+                <button onClick={handleSaveConfig}>
+                  💾 Save All Games to File
+                </button>
+                <button onClick={handleLoadConfig}>
+                  📂 Load All Games from File
+                </button>
+              </div>
+            </div>
+
             <button onClick={() => setMode('menu')}>Back to Menu</button>
           </div>
         )}
